@@ -309,6 +309,7 @@ dialog::backdrop { background: #020813c9; backdrop-filter: blur(6px); }
 }
 
 .download-main { max-width: 580px; padding-top: 38px; }
+.download-page .brand::after { content: "설치 안내"; }
 .download-hero { text-align: center; }
 .download-hero .code { overflow-wrap: anywhere; }
 .download-hero .sub { margin: 8px 0 17px; }
