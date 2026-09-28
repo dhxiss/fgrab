@@ -4,9 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>GRAB 앱 받기</title>
-  <link rel="stylesheet" href="./style.css?v=2.6.6-1">
+  <link rel="stylesheet" href="./style.css?v=2.6.6-2">
 </head>
 <body class="download-page">
+  <section id="kakaoGate" class="kakao-gate" aria-labelledby="kakaoTitle" hidden>
+    <div class="kakao-card">
+      <span class="kakao-mark" aria-hidden="true">G</span>
+      <h1 id="kakaoTitle">GRAB</h1>
+      <p>카카오톡에서는 다운로드한 설치 파일을 바로 열기 어려울 수 있습니다.</p>
+      <a id="openExternal" class="kakao-open" href="#">🌐 외부 브라우저로 열기</a>
+      <small>버튼이 작동하지 않으면 카카오톡 메뉴(⋮)에서<br>‘다른 브라우저로 열기’를 선택해 주세요.</small>
+    </div>
+  </section>
   <header><div class="brand"><span class="mark">G</span>GRAB 앱</div></header>
   <main class="download-main">
     <section class="panel hero download-hero">
@@ -43,6 +52,7 @@
     const code = (new URLSearchParams(location.search).get('ref') || '').trim().toUpperCase();
     const valid = validReferral(code);
     const mobile = navigator.userAgentData?.mobile === true || /Android|iPhone|iPod/i.test(navigator.userAgent);
+    const kakao = /KAKAOTALK/i.test(navigator.userAgent);
     const message = document.getElementById('message');
     const download = document.getElementById('download');
     const launch = document.getElementById('launch');
@@ -101,6 +111,14 @@
       download.setAttribute('aria-disabled', 'true');
       launch.setAttribute('aria-disabled', 'true');
       document.getElementById('copy').disabled = true;
+    }
+
+    if (kakao) {
+      document.body.classList.add('kakao-inapp');
+      document.getElementById('kakaoGate').hidden = false;
+      const external = document.getElementById('openExternal');
+      external.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(location.href);
+      external.addEventListener('click', () => { if (valid) void copyCode(false, false); });
     }
   </script>
 </body>
