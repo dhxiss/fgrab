@@ -80,8 +80,8 @@
 
     if (valid) {
       if (mobile) {
-        retryCopyOnTap = () => {
-          if (!copied) void copyCode();
+        retryCopyOnTap = event => {
+          if (!copied && !event.target.closest('#copy, #download')) void copyCode();
         };
         document.addEventListener('click', retryCopyOnTap, true);
         void copyCode(false, false).then(success => {
