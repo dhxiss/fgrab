@@ -12,7 +12,7 @@
     <section class="panel hero download-hero">
       <span class="mini">초대 받은 추천 코드</span>
       <div class="code" id="code">확인 중</div>
-      <p class="sub">이 코드를 앱에 전달하면 해당 총판의 고객으로 등록됩니다.</p>
+      <p class="sub">휴대폰에서 열면 추천 코드를 자동으로 복사합니다. 앱에 전달하면 해당 총판의 고객으로 등록됩니다.</p>
       <button id="copy" type="button">추천 코드 복사</button>
       <p id="message" class="status" role="status" aria-live="polite"></p>
     </section>
@@ -42,13 +42,17 @@
 
     const code = (new URLSearchParams(location.search).get('ref') || '').trim().toUpperCase();
     const valid = validReferral(code);
+    const mobile = navigator.userAgentData?.mobile === true || /Android|iPhone|iPod/i.test(navigator.userAgent);
     const message = document.getElementById('message');
     const download = document.getElementById('download');
     const launch = document.getElementById('launch');
     document.getElementById('code').textContent = valid ? code : '유효한 추천 코드가 없습니다';
     launch.href = valid ? 'grabmacro://referral?ref=' + encodeURIComponent(code) : '#';
 
-    async function copyCode(showResult = true) {
+    let copied = false;
+    let retryCopyOnTap = null;
+
+    async function copyCode(showResult = true, showFailure = true) {
       if (!valid) return false;
       try {
         if (!navigator.clipboard?.writeText) throw new Error('클립보드 API를 사용할 수 없습니다.');
@@ -64,16 +68,27 @@
         try { copied = document.execCommand('copy'); } catch { /* 브라우저의 복사 제한은 안내 문구로 처리한다. */ }
         input.remove();
         if (!copied) {
-          message.textContent = '자동 복사가 제한됐습니다. 추천 코드 복사 버튼을 눌러주세요.';
+          if (showFailure) message.textContent = '자동 복사가 제한됐습니다. 추천 코드 복사 버튼을 눌러주세요.';
           return false;
         }
       }
+      copied = true;
+      if (retryCopyOnTap) document.removeEventListener('click', retryCopyOnTap, true);
       if (showResult) message.textContent = '추천 코드를 복사했습니다. 설치 후 앱을 열어주세요.';
       return true;
     }
 
     if (valid) {
-      copyCode(false);
+      if (mobile) {
+        retryCopyOnTap = () => {
+          if (!copied) void copyCode();
+        };
+        document.addEventListener('click', retryCopyOnTap, true);
+        void copyCode(false, false).then(success => {
+          if (success) message.textContent = '추천 코드가 자동으로 복사됐습니다. 설치 후 앱을 열어주세요.';
+          else if (!copied) message.textContent = '화면을 한 번 누르면 추천 코드 복사를 다시 시도합니다.';
+        });
+      }
       download.addEventListener('click', async event => {
         event.preventDefault();
         await copyCode();
