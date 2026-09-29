@@ -316,15 +316,13 @@ dialog::backdrop { background: #020813c9; backdrop-filter: blur(6px); }
 .download-hero .status { min-height: 22px; margin-bottom: 0; }
 .download-steps { margin-top: 18px; padding: 24px; }
 .download-steps > h1 { margin: 0 0 22px; font-size: 21px; }
-.download-step { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 14px; padding: 20px 0; border-top: 1px solid var(--line); }
+.download-step { padding: 20px 0; border-top: 1px solid var(--line); }
 .download-step h2 { margin: 0; font-size: 16px; }
 .download-step .sub { margin: 5px 0 16px; }
-.step-number { display: grid; place-items: center; width: 30px; height: 30px; border: 1px solid #5689c7; border-radius: 9px; color: #d7e9ff; background: #1e3657; font-weight: 850; }
 .download-action { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 9px 17px; border: 1px solid #5177a5; border-radius: 10px; color: var(--text); background: #1b2d48; font-weight: 800; text-decoration: none; }
 .download-action:hover { color: white; border-color: #91bdff; background: #29476d; }
 .download-action.primary { border-color: #78baff; color: white; background: linear-gradient(125deg, #226ed2, #3f72dc 58%, #6551bd); }
 .download-action[aria-disabled="true"] { opacity: .45; pointer-events: none; }
-.download-note { display: block; padding: 14px 0 0; border-top: 1px solid var(--line); }
 .kakao-inapp { overflow: hidden; }
 .kakao-gate { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 22px; background: radial-gradient(circle at 50% 35%, #17273b, #080c14 72%); }
 .kakao-gate[hidden] { display: none; }

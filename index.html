@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>GRAB 앱 받기</title>
-  <link rel="stylesheet" href="./style.css?v=2.6.6-2">
+  <link rel="stylesheet" href="./style.css?v=2.6.8-2">
 </head>
 <body class="download-page">
   <section id="kakaoGate" class="kakao-gate" aria-labelledby="kakaoTitle" hidden>
@@ -28,22 +28,12 @@
     <section class="panel download-steps">
       <h1>GRAB 설치하기</h1>
       <div class="download-step">
-        <span class="step-number">1</span>
         <div>
           <h2>앱 다운로드</h2>
           <p class="sub">버튼을 누르면 추천 코드를 복사하고 APK 다운로드를 시작합니다.</p>
           <a id="download" class="download-action primary" href="https://github.com/dhxiss/fgrab/releases/download/v2.6.8/GRAB_v2.6.8.apk">GRAB APK 다운로드</a>
         </div>
       </div>
-      <div class="download-step">
-        <span class="step-number">2</span>
-        <div>
-          <h2>설치 후 앱 열기</h2>
-          <p class="sub">설치가 끝나면 이 페이지로 돌아와 아래 버튼을 눌러주세요. 추천 코드가 앱에 바로 전달됩니다.</p>
-          <a id="launch" class="download-action" href="#">추천 코드로 앱 열기</a>
-        </div>
-      </div>
-      <p class="mini download-note">앱이 열리지 않으면 휴대폰에서 GRAB을 직접 실행하세요. 복사된 추천 코드를 앱이 읽어 입력합니다.</p>
     </section>
   </main>
   <script>
@@ -55,9 +45,7 @@
     const kakao = /KAKAOTALK/i.test(navigator.userAgent);
     const message = document.getElementById('message');
     const download = document.getElementById('download');
-    const launch = document.getElementById('launch');
     document.getElementById('code').textContent = valid ? code : '유효한 추천 코드가 없습니다';
-    launch.href = valid ? 'grabmacro://referral?ref=' + encodeURIComponent(code) : '#';
 
     let copied = false;
     let retryCopyOnTap = null;
@@ -107,9 +95,7 @@
       document.getElementById('copy').addEventListener('click', () => { void copyCode(); });
     } else {
       download.removeAttribute('href');
-      launch.removeAttribute('href');
       download.setAttribute('aria-disabled', 'true');
-      launch.setAttribute('aria-disabled', 'true');
       document.getElementById('copy').disabled = true;
     }
 
